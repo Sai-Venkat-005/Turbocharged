@@ -1,93 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>TURBOCHARGED</title>
-	<meta charset="utf-8">
-	<meta name="author" content="pixelhint.com">
-	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-	
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<?php
+$pageTitle = 'Contact Us';
+include 'header.php';
+?>
 
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-</head>
-<body>
-<section class="">
-		<?php
-			include 'header.php';
-		?>
+<main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-12 w-full">
+    <h1 class="text-3xl font-bold text-white mb-2">Contact Us</h1>
+    <p class="text-slate-400 mb-10">We'd love to hear from you. Visit us or get in touch.</p>
 
-			<section class="caption">
-				<h2 class="caption" style="text-align: center">Contact Us</h2>
-				<h3 class="properties" s
-	</section><!--  end hero section  -->
-						
-                    <section class="listings">
-		                <div class="wrapper">
-						<ul>
-						<h1>Turbocharged Car Care Center</h1>
-						<h2>NH-65, Abdullapurmet</h2>
-						
-						<h3>Rangareddy, Telangana - 501512</h3>
-						
-						<h7>Contact no:9515925928</h7><br><br>
-						<h8>Email: teamturbocharged@gmail.com</h8><br><br>
-						<h9>location:</h9><br>
-						
-						<?php
-						include 'includes/config.php';
-						$sel = "SELECT * FROM about ";
-						$rs = $conn->query($sel);
-						while($rws = $rs->fetch_assoc()){
-			?>
-				<li>
-					<a href="https://www.google.com/maps/place/17%C2%B016'55.6%22N+78%C2%B047'03.1%22E/@17.2821111,78.7820057,17z/data=!3m1!4b1!4m13!1m6!3m5!1s0x3bcb0c481a8cd299:0x7f432c1b033db8fb!2sAndol+Maisamma+Temple!8m2!3d17.2824814!4d78.7825393!3m5!1s0x0:0x0!7e2!8m2!3d17.2821228!4d78.7842023">
-						<img class="thumb" src="about/<?php echo $rws['image'];?>" width="400" height="400">
-					</a>
-					
-					
-				</li>
-			<?php
-				}
-			?>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-		</ul>
-		</div>
-	</section>	<!--  end listing section  -->
-		  
-	<footer>
-		<div class="wrapper footer">
-			<ul>
-				<li class="links">
-					<ul>
-						<li>QUICK LINKS</li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Policy</a></li>
-						<li><a href="#contact_us.php">Contact Us</a></li>
-					</ul>
-				</li>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Contact info -->
+        <div class="space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <h2 class="text-lg font-semibold text-white mb-4">Turbocharged Car Care Center</h2>
+                <div class="space-y-4 text-sm">
+                    <div class="flex gap-3">
+                        <span class="text-orange-400 text-xl shrink-0">📍</span>
+                        <div>
+                            <p class="text-white font-medium">Address</p>
+                            <p class="text-slate-400 mt-0.5">NH-65, Abdullapurmet<br>Rangareddy, Telangana — 501512</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-orange-400 text-xl shrink-0">📞</span>
+                        <div>
+                            <p class="text-white font-medium">Phone</p>
+                            <a href="tel:9515925928" class="text-slate-400 hover:text-orange-400 transition-colors mt-0.5 block">9515925928</a>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-orange-400 text-xl shrink-0">✉</span>
+                        <div>
+                            <p class="text-white font-medium">Email</p>
+                            <a href="mailto:teamturbocharged@gmail.com" class="text-slate-400 hover:text-orange-400 transition-colors mt-0.5 block">teamturbocharged@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <h2 class="text-lg font-semibold text-white mb-4">Our Services</h2>
+                <ul class="space-y-2 text-sm text-slate-400">
+                    <li class="flex items-center gap-2"><span class="text-orange-400">✓</span> Washing &amp; Sanitization</li>
+                    <li class="flex items-center gap-2"><span class="text-orange-400">✓</span> Complete Servicing</li>
+                    <li class="flex items-center gap-2"><span class="text-orange-400">✓</span> Wheel Balancing &amp; Alignment</li>
+                    <li class="flex items-center gap-2"><span class="text-orange-400">✓</span> Engine Diagnostics</li>
+                    <li class="flex items-center gap-2"><span class="text-orange-400">✓</span> Genuine Spare Parts</li>
+                </ul>
+            </div>
+        </div>
 
-				<li class="links">
-					<ul>
-						<li>OUR SERVICES</li>
-						<li><a href="#">Washing and Sanitization</a></li>
-						<li><a href="#">Complete servicing</a></li>
-						<li><a href="#">Wheel Balancing and Wheel Allignment</a></li>
-						<li><a href="#">Others</a></li>
-					</ul>
-				</li>
+        <!-- Map -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+            <a href="https://www.google.com/maps/search/Abdullapurmet+NH-65+Rangareddy+Telangana"
+               target="_blank" rel="noopener noreferrer" class="block">
+                <div class="h-72 bg-slate-800 flex items-center justify-center text-slate-500 hover:text-orange-400 transition-colors">
+                    <div class="text-center">
+                        <div class="text-5xl mb-3">🗺️</div>
+                        <p class="font-medium text-slate-300">View on Google Maps</p>
+                        <p class="text-sm mt-1">NH-65, Abdullapurmet</p>
+                    </div>
+                </div>
+            </a>
+            <div class="p-5 border-t border-slate-800">
+                <p class="text-sm text-slate-400">Click above to open our location in Google Maps and get directions.</p>
+                <a href="message_admin.php"
+                   class="mt-4 block w-full text-center bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                    Send Us a Message →
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
 
-							<?php include_once "includes/footer.php" ?>
+<?php include 'includes/footer.php'; ?>

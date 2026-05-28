@@ -1,154 +1,97 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+include '../includes/config.php';
+$stmt = $conn->prepare("SELECT * FROM message ORDER BY time DESC");
+$stmt->execute();
+$messages = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<title>Admin Home</title>
-	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-	<script type="text/javascript">
-		function sureToApprove(id){
-			if(confirm("Are you sure you want to delete this message?")){
-				window.location.href ='delete_msg.php?id='+id;
-			}
-		}
-	</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages — Turbocharged Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
 </head>
-<body>
-<!-- Header -->
-<div id="header">
-	<div class="shell">
-		
-		<?php
-			include 'menu.php';
-		?>
-		</div>
-		<!-- End Main Nav -->
-	</div>
-</div>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
 
-<div id="container">
-	<div class="shell">
-		
-		<div class="small-nav">
-			<a href="index.php">Dashboard</a>
-			<span>&gt;</span>
-			Client Messages
-		</div>
-		
-		<br />
-		
-		<div id="main">
-			<div class="cl">&nbsp;</div>
-			
-			<div id="content">
-				
-				<div class="box">
-					<!-- Box Head -->
-					<div class="box-head">
-						<h2 class="left">Client Messages</h2>
-						<div class="right">
-							<label>search messages</label>
-							<input type="text" class="field small-field" />
-							<input type="submit" class="button" value="search" />
-						</div>
-					</div>
-					
-					<div class="table">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<th width="13"><input type="checkbox" class="checkbox" /></th>
-								<th>Message Content</th>
-								<th>Time Send</th>
-								<th>Status</th>
-								<th width="110" class="ac">Content Control</th>
-							</tr>
-							<?php
-								include '../includes/config.php';
-								$select = "SELECT * FROM message";
-								$result = $conn->query($select);
-								while($row = $result->fetch_assoc()){
-							?>
-							<tr>
-								<td><input type="checkbox" class="checkbox" /></td>
-								<td><h3><a href="#"><?php echo $row['message'] ?></a></h3></td>
-								<td><?php echo $row['time'] ?></td>
-								<td><a href="#"><?php echo $row['status'] ?></a></td>
-								<td><a href="javascript:sureToApprove(<?php echo $row['msg_id'];?>)" class="ico del">Delete</a><a href="#" class="ico edit">Edit</a></td>
-							</tr>
-							<?php
-								}
-							?>
-						</table>
-						
-						
-						<!-- Pagging -->
-						<div class="pagging">
-							<div class="left">Showing 1-12 of 44</div>
-							<div class="right">
-								<a href="#">Previous</a>
-								<a href="#">1</a>
-								<a href="#">2</a>
-								<a href="#">3</a>
-								<a href="#">4</a>
-								<a href="#">245</a>
-								<span>...</span>
-								<a href="#">Next</a>
-								<a href="#">View all</a>
-							</div>
-						</div>
-						<!-- End Pagging -->
-						
-					</div>
-					<h2><input type="submit" onclick="window.print()" value="Print Here" /></h2>
-					
-				</div>
-				<!-- End Box -->
+<?php include 'menu.php'; ?>
 
-			</div>
-			<!-- End Content -->
-			
-			<!-- Sidebar -->
-			<div id="sidebar">
-				
-				<!-- Box -->
-				<div class="box">
-					
-					<!-- Box Head -->
-					<div class="box-head">
-						<h2>Management</h2>
-					</div>
-					<!-- End Box Head-->
-					
-					<div class="box-content">
-						<a href="#" class="add-button"><span>Send Messages</span></a>
-						<div class="cl">&nbsp;</div>
-						
-						<p class="select-all"><input type="checkbox" class="checkbox" /><label>select all</label></p>
-						<p><a href="#">Delete Selected</a></p>
-						
-						
-					</div>
-				</div>
-				<!-- End Box -->
-			</div>
-			<!-- End Sidebar -->
-			
-			<div class="cl">&nbsp;</div>			
-		</div>
-		<!-- Main -->
-	</div>
-</div>
-<!-- End Container -->
+<main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-slate-400 mb-6">
+        <a href="index.php" class="hover:text-orange-400 transition-colors">Dashboard</a>
+        <span>›</span>
+        <span class="text-slate-300">Client Messages</span>
+    </div>
 
-<!-- Footer -->
-<div id="footer">
-	<div class="shell">
-		<span class="left">&copy; <?php echo date("Y");?> - TEAM TURBOCHARGED</span>
-		<span class="right">
-			Design by <a href="#">TEAM TURBOCHARGED</a>
-		</span>
-	</div>
-</div>
-<!-- End Footer -->
-	
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-white">Client Messages</h1>
+        <span class="bg-slate-800 border border-slate-700 text-slate-300 text-sm px-3 py-1 rounded-full">
+            <?= count($messages) ?> total
+        </span>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <?php if (empty($messages)): ?>
+            <div class="text-center py-16 text-slate-400">
+                <div class="text-4xl mb-3">📭</div>
+                <p>No messages yet.</p>
+            </div>
+        <?php else: ?>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-left">
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Message</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Time</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800">
+                        <?php foreach ($messages as $row): ?>
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="px-6 py-4">
+                                <p class="text-white font-medium leading-relaxed max-w-lg">
+                                    <?= htmlspecialchars($row['message']) ?>
+                                </p>
+                            </td>
+                            <td class="px-6 py-4 text-slate-400 whitespace-nowrap">
+                                <?= $row['time'] !== '0000-00-00 00:00:00' ? htmlspecialchars($row['time']) : '—' ?>
+                            </td>
+                            <td class="px-6 py-4">
+                                <?php if ($row['status'] === 'Unread'): ?>
+                                    <span class="bg-yellow-900/40 border border-yellow-500/50 text-yellow-400 text-xs px-2.5 py-1 rounded-full font-medium">Unread</span>
+                                <?php else: ?>
+                                    <span class="bg-green-900/40 border border-green-500/50 text-green-400 text-xs px-2.5 py-1 rounded-full font-medium">Read</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button onclick="confirmDelete(<?= (int)$row['msg_id'] ?>)"
+                                        class="text-red-400 hover:text-red-300 text-xs font-medium border border-red-500/40 hover:border-red-400 px-3 py-1 rounded-lg transition-all">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </div>
+</main>
+
+<footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-slate-500 text-xs">
+    &copy; <?= date('Y') ?> Turbocharged Car Care Center
+</footer>
+
+<script>
+function confirmDelete(id) {
+    if (confirm('Are you sure you want to delete this message?')) {
+        window.location.href = 'delete_msg.php?id=' + id;
+    }
+}
+</script>
 </body>
 </html>

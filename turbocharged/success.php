@@ -1,61 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>TURBOCHARGED</title>
-	<meta charset="utf-8">
-	<meta name="author" content="pixelhint.com">
-	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-	
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<?php
+$pageTitle = 'Message Sent';
+include 'header.php';
+?>
 
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-</head>
-<body>
-<section class="">
-		<?php
-			include 'header.php';
-		?>
+<main class="flex-1 flex items-center justify-center px-4 py-16">
+    <div class="w-full max-w-md text-center">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-10 shadow-xl">
+            <div class="text-6xl mb-6">✅</div>
+            <h1 class="text-2xl font-bold text-white mb-3">Message Sent!</h1>
+            <p class="text-slate-400 leading-relaxed mb-8">
+                Thank you for reaching out. We'll contact you shortly via call or email.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="index.php"
+                   class="bg-orange-500 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+                    Back to Home
+                </a>
+                <a href="status.php"
+                   class="border border-slate-700 text-slate-300 px-6 py-2.5 rounded-lg hover:border-slate-500 transition-colors">
+                    View My Status
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
 
-			
-	</section><!--  end hero section  -->
-
-
-
-	<section class="listings">
-		<div class="wrapper">
-		<h2 style="text-align: center; color:#CC0000">Thank you for contacting us. We will contact you shortly via call/Email.</h2>
-			<ul class="properties_list">
-			
-			</ul>
-		</div>
-	</section>	<!--  end listing section  -->
-
-	<footer>
-		<div class="wrapper footer">
-			<ul>
-				<li class="links">
-					<ul>
-						<li>QUICK LINKS</li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Policy</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</li>
-
-			
-
-				<li class="links">
-					<ul>
-						<li>OUR SERVICES</li>
-						<li><a href="#">Washing and Sanitization</a></li>
-						<li><a href="#">Complete servicing</a></li>
-						<li><a href="#">Wheel Balancing and Wheel Allignment</a></li>
-						<li><a href="#">Others</a></li>
-					</ul>
-				</li>
-
-					<?php include_once "includes/footer.php" ?>
+<?php include 'includes/footer.php'; ?>

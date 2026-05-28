@@ -1,105 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>TURBOCHARGED</title>
-	<meta charset="utf-8">
-	<meta name="author" content="pixelhint.com">
-	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-	
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<?php
+if (session_status() === PHP_SESSION_NONE) session_start();
+$error = '';
 
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-</head>
-<body>
-<section class="">
-		<?php
-			include 'header.php';
-		?>
+if (isset($_POST['log'])) {
+    include 'includes/config.php';
+    $uname = trim($_POST['email']);
+    $pass  = trim($_POST['pass']);
 
-			
-	</section><!--  end hero section  -->
+    $stmt = $conn->prepare("SELECT * FROM client WHERE email = ? AND reg_no = ?");
+    $stmt->bind_param('ss', $uname, $pass);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['pass']  = $row['reg_no'];
+        header('Location: index.php');
+        exit;
+    } else {
+        $error = 'Invalid email or registration number. Please try again.';
+    }
+}
 
+$pageTitle = 'Customer Login';
+include 'header.php';
+?>
 
-	<section class="search">
-		<div class="wrapper">
-		<div id="fom">
-			<form method="post">
-			<h3 style="text-align:center; color: #000099; font-weight:bold; text-decoration:underline">Customer Login Area</h3>
-				<table height="100" align="center">
-					<tr>
-						<td>Email Address:</td>
-						<td><input type="email" name="email" placeholder="Enter Email Address" required></td>
-					</tr>
-					<tr>
-						<td>Password:</td>
-						<td><input type="password" name="pass" placeholder="Enter reg Number" required></td>
-					</tr>
-					<tr>
-						<td><input type="submit" name="log" value="Login Here"></td>
-						<td style="text-align:right;"><a href="signup.php">Sigup Here</a></td>
-					</tr>
-				</table>
-			</form>
-			<?php
-				if(isset($_POST['log'])){
-					include 'includes/config.php';
-					
-					$uname = $_POST['email'];
-					$pass = $_POST['pass'];
-					
-					$qy = "SELECT * FROM client WHERE email = '$uname' AND reg_no = '$pass'";
-					$log = $conn->query($qy);
-					$num = $log->num_rows;
-					$row = $log->fetch_assoc();
-					if($num > 0){
-						session_start();
-						$_SESSION['email'] = $row['email'];
-						$_SESSION['pass'] = $row['reg_no'];
-						echo "<script type = \"text/javascript\">
-									alert(\"Login Successful.................\");
-									window.location = (\"index.php\")
-									</script>";
-					} else{
-						echo "<script type = \"text/javascript\">
-									alert(\"Login Failed. Try Again................\");
-									window.location = (\"account.php\")
-									</script>";
-					}
-				}
-			?>
-			</div>
-			<a href="#" class="advanced_search_icon" id="advanced_search_btn"></a>
-		</div>
+<main class="flex-1 flex items-center justify-center px-4 py-16">
+    <div class="w-full max-w-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl">
+            <div class="text-center mb-8">
+                <div class="text-4xl mb-3">🔑</div>
+                <h1 class="text-2xl font-bold text-white">Customer Login</h1>
+                <p class="text-slate-400 text-sm mt-1">Sign in to track your service request</p>
+            </div>
 
-	</section><!--  end search section  -->
+            <?php if ($error): ?>
+            <div class="bg-red-900/30 border border-red-500/50 rounded-lg p-3 text-red-400 text-sm mb-6">
+                <?= htmlspecialchars($error) ?>
+            </div>
+            <?php endif; ?>
 
-	<footer>
-		<div class="wrapper footer">
-			<ul>
-				<li class="links">
-					<ul>
-						<li>QUICK LINKS</li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Policy</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</li>
+            <form method="post" class="space-y-5">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-300 mb-1.5">Email Address</label>
+                    <input type="email" id="email" name="email" required
+                           placeholder="you@example.com"
+                           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                </div>
+                <div>
+                    <label for="pass" class="block text-sm font-medium text-slate-300 mb-1.5">Password <span class="text-slate-500 font-normal">(Vehicle Reg. Number)</span></label>
+                    <input type="password" id="pass" name="pass" required
+                           placeholder="Enter your registration number"
+                           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                </div>
+                <button type="submit" name="log"
+                        class="w-full bg-orange-500 text-white py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-2">
+                    Login
+                </button>
+            </form>
 
-				
+            <p class="text-center text-slate-400 text-sm mt-6">
+                New customer?
+                <a href="signup.php" class="text-orange-400 hover:text-orange-300 font-medium transition-colors">Register here</a>
+            </p>
+        </div>
+    </div>
+</main>
 
-				<li class="links">
-					<ul>
-						<li>OUR SERVICES</li>
-						<li><a href="#">Washing and Sanitization</a></li>
-						<li><a href="#">Complete servicing</a></li>
-						<li><a href="#">Wheel Balancing and Wheel Allignment</a></li>
-						<li><a href="#">Others</a></li>
-					</ul>
-				</li>
-
-			<?php include_once "includes/footer.php"; ?>
+<?php include 'includes/footer.php'; ?>

@@ -1,139 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>TURBOCHARGED</title>
-	<meta charset="utf-8">
-	<meta name="author" content="pixelhint.com">
-	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-	
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<?php
+if (session_status() === PHP_SESSION_NONE) session_start();
+$error = '';
 
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-</head>
-<body>
-<section class="">
-		<?php
-			include 'header.php';
-		?>
+if (isset($_POST['pay'])) {
+    include 'includes/config.php';
+    $txn_id = trim($_POST['txn_id']);
+    $reg_no = trim($_POST['reg_no']);
 
-			<section class="caption">
-				<h2 class="caption" style="text-align: center">Payment Information</h2>
-		
-			</section>
-	</section><!--  end hero section  -->
+    $stmt = $conn->prepare("UPDATE client SET mpesa = ? WHERE reg_no = ?");
+    $stmt->bind_param('ss', $txn_id, $reg_no);
 
-	<section class="search">
-		<div class="wrapper">
-			<form action="#" method="post">
-				<input type="text" id="search" name="search" placeholder="What are you looking for?"  autocomplete="off"/>
-				<input type="submit" id="submit_search" name="submit_search"/>
-			</form>
-			<a href="#" class="advanced_search_icon" id="advanced_search_btn"></a>
-		</div>
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+        header('Location: wait.php');
+        exit;
+    } else {
+        $error = 'Could not record payment. Please verify your registration number and try again.';
+    }
+}
 
-		<div class="advanced_search">
-			<div class="wrapper">
-				<span class="arrow"></span>
-				<form action="#" method="post">
-					<div class="search_fields">
-						<input type="text" class="float" id="check_in_date" name="check_in_date" placeholder="Check In Date"  autocomplete="off">
+$pageTitle = 'Payment';
+include 'header.php';
+?>
 
-						<hr class="field_sep float"/>
+<main class="flex-1 flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+        <!-- Steps indicator -->
+        <div class="flex items-center justify-center gap-3 mb-8 text-sm">
+            <div class="flex items-center gap-1.5 text-green-400"><span class="w-6 h-6 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center text-xs font-bold">✓</span> Booking</div>
+            <div class="flex-1 h-px bg-orange-500 max-w-12"></div>
+            <div class="flex items-center gap-1.5 text-orange-400 font-semibold"><span class="w-6 h-6 rounded-full bg-orange-500/20 border border-orange-500 flex items-center justify-center text-xs font-bold">2</span> Payment</div>
+            <div class="flex-1 h-px bg-slate-700 max-w-12"></div>
+            <div class="flex items-center gap-1.5 text-slate-500"><span class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold">3</span> Confirm</div>
+        </div>
 
-						<input type="text" class="float" id="check_out_date" name="check_out_date" placeholder="Check Out Date"  autocomplete="off">
-					</div>
-					<div class="search_fields">
-						<input type="text" class="float" id="min_price" name="min_price" placeholder="Min. Price"  autocomplete="off">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl">
+            <div class="text-center mb-8">
+                <div class="text-4xl mb-3">💳</div>
+                <h1 class="text-2xl font-bold text-white">Make Payment</h1>
+                <p class="text-slate-400 text-sm mt-1">Transfer the amount and enter your transaction ID below</p>
+            </div>
 
-						<hr class="field_sep float"/>
+            <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-4 mb-6 text-sm text-slate-300">
+                <p class="font-medium text-white mb-2">Payment Instructions</p>
+                <p class="text-slate-400">Transfer the service amount to our UPI / bank account, then submit your Transaction ID and vehicle registration number below.</p>
+            </div>
 
-						<input type="text" class="float" id="max_price" name="max_price" placeholder="Max. price"  autocomplete="off">
-					</div>
-					<input type="text" id="keywords" name="keywords" placeholder="Keywords"  autocomplete="off">
-					<input type="submit" id="submit_search" name="submit_search"/>
-				</form>
-			</div>
-		</div><!--  end advanced search section  -->
-	</section><!--  end search section  -->
+            <?php if ($error): ?>
+            <div class="bg-red-900/30 border border-red-500/50 rounded-lg p-3 text-red-400 text-sm mb-6">
+                <?= htmlspecialchars($error) ?>
+            </div>
+            <?php endif; ?>
 
+            <form method="post" class="space-y-5">
+                <div>
+                    <label for="txn_id" class="block text-sm font-medium text-slate-300 mb-1.5">Transaction ID</label>
+                    <input type="text" id="txn_id" name="txn_id" required
+                           placeholder="e.g. GTD45H7H6"
+                           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                </div>
+                <div>
+                    <label for="reg_no" class="block text-sm font-medium text-slate-300 mb-1.5">Vehicle Registration Number</label>
+                    <input type="text" id="reg_no" name="reg_no" required
+                           placeholder="e.g. TS09AB1234"
+                           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                </div>
+                <button type="submit" name="pay"
+                        class="w-full bg-orange-500 text-white py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-2">
+                    Submit Payment Details →
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
 
-	<section class="listings">
-		<div class="wrapper">
-			<ul class="properties_list">
-				<h3 style="text-decoration: underline">Make Payments Here</h3>
-				<h5>Transaction ID : Enter your transaction ID</h5>
-				<h6>Registration Number: Enter registration no. of your vehicle</h6>
-				<form method="post">
-					<table>
-						<tr>
-							<td>Transaction ID:</td>
-							<td><input type="text" name="txn_id" required></td>
-						</tr>
-						<tr>
-							<td>Registration Number:</td>
-							<td><input type="text" name="reg_no" required></td>
-						</tr>
-						
-						<tr>
-							<td colspan="2" style="text-align:right"><input type="submit" name="pay" value="Submit Details"></td>
-						</tr>
-					</table>
-				</form>
-				<?php
-						if(isset($_POST['pay'])){
-							include 'includes/config.php';
-							$txn_id = $_POST['txn_id'];
-							$reg_no = $_POST['reg_no'];
-							
-							$qry = "UPDATE client SET txn_id = '$txn_id' WHERE reg_no = '$reg_no'";
-							$result = $conn->query($qry);
-							if($result == TRUE){
-								echo "<script type = \"text/javascript\">
-											alert(\"Payment Successfully Done. Wait for Admin Approval\");
-											window.location = (\"wait.php\")
-											</script>";
-							} else{
-								echo "<script type = \"text/javascript\">
-											alert(\"Registration Failed. Try Again\");
-											window.location = (\"pay.php\")
-											</script>";
-							}
-						}
-						
-					  ?>
-			</ul>
-			<div class="more_listing">
-				<a href="#" class="more_listing_btn">View More Listings</a>
-			</div>
-		</div>
-	</section>	<!--  end listing section  -->
-
-	<footer>
-		<div class="wrapper footer">
-			<ul>
-				<li class="links">
-					<ul>
-						<li>QUICK LINKS</li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Policy</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</li>
-
-			
-
-				<li class="links">
-					<ul>
-						<li>OUR SERVICES</li>
-						<li><a href="#">Washing and Sanitization</a></li>
-						<li><a href="#">Complete servicing</a></li>
-						<li><a href="#">Wheel Balancing and Wheel Allignment</a></li>
-						<li><a href="#">Others</a></li>
-					</ul>
-				</li>
-
-					<?php include_once "includes/footer.php" ?>
+<?php include 'includes/footer.php'; ?>

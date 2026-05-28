@@ -1,92 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>TURBOCHARGED</title>
-	<meta charset="utf-8">
-	<meta name="author" content="pixelhint.com">
-	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-	
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<?php
+$pageTitle = 'Request Submitted';
+include 'header.php';
+?>
 
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-</head>
-<body>
-<section class="">
-		<?php
-			include 'header.php';
-		?>
+<main class="flex-1 flex items-center justify-center px-4 py-16">
+    <div class="w-full max-w-lg text-center">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-10 shadow-xl">
+            <div class="text-6xl mb-6">⏳</div>
+            <h1 class="text-2xl font-bold text-white mb-3">Booking Submitted!</h1>
+            <p class="text-slate-400 leading-relaxed mb-6">
+                Thank you for sending your service request to Team Turbocharged.
+                We will review your payment and get back to you within <span class="text-white font-medium">24 hours</span>.
+            </p>
+            <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-4 text-sm text-slate-400 text-left mb-8">
+                <p class="font-medium text-slate-300 mb-2">What's next?</p>
+                <ul class="space-y-1.5">
+                    <li class="flex gap-2"><span class="text-orange-400 shrink-0">1.</span> We verify your payment transaction.</li>
+                    <li class="flex gap-2"><span class="text-orange-400 shrink-0">2.</span> Admin approves your booking.</li>
+                    <li class="flex gap-2"><span class="text-orange-400 shrink-0">3.</span> You receive confirmation — bring your vehicle in!</li>
+                </ul>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="account.php"
+                   class="bg-orange-500 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+                    Login to Track Status
+                </a>
+                <a href="index.php"
+                   class="border border-slate-700 text-slate-300 px-6 py-2.5 rounded-lg hover:border-slate-500 transition-colors">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
 
-			
-	</section><!--  end hero section  -->
-
-
-
-	<section class="search">
-		
-
-		<div class="advanced_search">
-			<div class="wrapper">
-				<span class="arrow"></span>
-				<form action="#" method="post">
-					<div class="search_fields">
-						<input type="text" class="float" id="check_in_date" name="check_in_date" placeholder="Check In Date"  autocomplete="off">
-
-						<hr class="field_sep float"/>
-
-						<input type="text" class="float" id="check_out_date" name="check_out_date" placeholder="Check Out Date"  autocomplete="off">
-					</div>
-					<div class="search_fields">
-						<input type="text" class="float" id="min_price" name="min_price" placeholder="Min. Price"  autocomplete="off">
-
-						<hr class="field_sep float"/>
-
-						<input type="text" class="float" id="max_price" name="max_price" placeholder="Max. price"  autocomplete="off">
-					</div>
-					<input type="text" id="keywords" name="keywords" placeholder="Keywords"  autocomplete="off">
-					<input type="submit" id="submit_search" name="submit_search"/>
-				</form>
-			</div>
-		</div><!--  end advanced search section  -->
-	</section><!--  end search section  -->
-
-
-	<section class="listings">
-		<div class="wrapper">
-			<ul class="properties_list">
-				<h2 style="text-align:center; color:#FF0000; font-family: 'Courier New', Courier, monospace">Thank you for sending service request to Team Turbocharged. 
-				We will get back to you once we verify your payment.<br>
-				You can login to view the processing status of your request using your email and your vehicle registration no. as password.</h2>
-			</ul>
-			
-		</div>
-	</section>	<!--  end listing section  -->
-
-	<footer>
-		<div class="wrapper footer">
-			<ul>
-				<li class="links">
-					<ul>
-						<li>QUICK LINKS</li>
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Policy</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul>
-				</li>
-
-			
-
-				<li class="links">
-					<ul>
-						<li>OUR SERVICES</li>
-						<li><a href="#">Washing and Sanitization</a></li>
-						<li><a href="#">Complete servicing</a></li>
-						<li><a href="#">Wheel Balancing and Wheel Allignment</a></li>
-						<li><a href="#">Others</a></li>
-					</ul>
-				</li>
-
-<?php include_once "includes/footer.php" ?>
+<?php include 'includes/footer.php'; ?>
